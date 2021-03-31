@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanil.fluxus.user.mapper.UserMapper">
+
+    <insert id="insertUserJoin" parameterType="java.util.HashMap">
+        INSERT INTO tb_user
+        (
+        USER_ID, PASSWORD, USER_NAME
+        )
+        VALUES
+        (
+        #{user_id}, #{password}, #{user_name}
+        )
+    </insert>
+    <!-- 이메일 중복 체크 -->
+    <select id='getUserIdCheck' parameterType='java.util.LinkedHashMap' resultType="int">
+        SELECT COUNT(*)
+        FROM tb_user
+        WHERE 1=1
+        AND USER_ID = #{user_id}
+    </select>
+
+    <!-- 로그인 정보 조회 -->
+    <select id="getLoginInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        SELECT
+          USER_ID
+        , PASSWORD
+        , USER_KEY
+        , TEMP_KEY
+        , USER_NAME
+        FROM
+        tb_user
+        WHERE
+        1=1
+        <if test='"" neq user_id and user_id != null'>
+            AND USER_ID = #{user_id}
+        </if>
+        <if test='"" neq user_key and user_key != null'>
+            AND USER_KEY = #{user_key}
+        </if>
+        <if test='"" neq temp_key and temp_key != null'>
+            AND TEMP_KEY = #{temp_key}
+        </if>
+    </select>
+    <!-- 임시키 저장 -->
+    <update id="setTempKey" parameterType="java.util.HashMap">
+        UPDATE
+        tb_user
+        SET
+        TEMP_KEY = #{temp_key}
+        WHERE 1=1
+        <if test='"" neq user_id and user_id != null'>
+            AND USER_ID = #{user_id}
+        </if>
+        <if test='"" neq user_key and user_key != null'>
+            AND USER_KEY = #{user_key}
+        </if>
+    </update>
+
+
+    <!-- 유저키 확인 -->
+    <select id="getUserKeyInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select
+        user_code
+        from
+        tb_user
+        where user_key = #{user_key}
+        and temp_key = #{temp_key}
+    </select>
+
+</mapper>
