@@ -3,8 +3,10 @@ package com.hanil.fluxus.crawling.controller;
 import com.hanil.fluxus.crawling.model.Deezer;
 import com.hanil.fluxus.crawling.model.JohnsStats;
 import com.hanil.fluxus.crawling.model.KoreaStats;
+import com.hanil.fluxus.crawling.model.NaverMap;
 import com.hanil.fluxus.crawling.service.CovidService;
 import com.hanil.fluxus.crawling.service.DeezerService;
+import com.hanil.fluxus.crawling.service.NaverMapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,9 @@ public class CrawlingApiController {
 
     @Autowired
     private DeezerService deezerService;
+
+    @Autowired
+    private NaverMapService naverMapService;
 
     @PostMapping("/api/crawling/test")
     public List<KoreaStats> getKoreaCovidDatas() throws IOException {
@@ -49,6 +54,22 @@ public class CrawlingApiController {
     public List<Deezer> getDeezerDatas(@PathVariable String upc) throws IOException{
 
         return deezerService.getDeezerDatas(upc);
+
+    }
+
+    @PostMapping("/api/crawling/naver")
+    public List<NaverMap> getNaverMapDatas() throws IOException{
+
+        return naverMapService.getNaverDatas("코리아CC");
+
+    }
+
+
+
+    @PostMapping("/api/crawling/naver/{cc}")
+    public List<NaverMap> getNaverMapDatas(@PathVariable String cc) throws IOException{
+
+        return naverMapService.getNaverDatas(cc);
 
     }
 

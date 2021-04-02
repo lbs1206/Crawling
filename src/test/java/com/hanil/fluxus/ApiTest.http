@@ -24,4 +24,9 @@ POST http://localhost:8080/api/crawling/deezer
 
 
 ####
-POST http://ec2-3-36-75-153.ap-northeast-2.compute.amazonaws.com/api/crawling/test
+POST http://ec2-3-36-75-153.ap-northeast-2.compute.amazonaws.com:8080/api/crawling/deezer
+#####
+POST http://localhost:8080/api/crawling/naver
+
+####
+POST http://ec2-3-36-75-153.ap-northeast-2.compute.amazonaws.com:8080/test
