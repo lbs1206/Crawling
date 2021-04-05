@@ -69,14 +69,27 @@ public class NaverMapService {
             Thread.sleep(2000);
 
             //음식점 검색
+            //WebElement storeBtn = driver.findElement(By.partialLinkText("음식점"));
+            //storeBtn.click();
             inputSearch.clear();
             inputSearch.sendKeys("음식점");
 
             SearchBtn.sendKeys(Keys.ENTER);
-
             Thread.sleep(3000);
+
+
+
             //가게리스트 수집
             WebElement storeList = driver.switchTo().frame("searchIframe").findElement(By.cssSelector("#_pcmap_list_scroll_container ul"));
+
+            //많이뜨는
+            WebElement searchTypes = driver.findElement(By.cssSelector("._22O8f ._2z373"));
+            searchTypes.click();
+            Thread.sleep(1000);
+            WebElement searchType = driver.findElement(By.partialLinkText("많이찾는"));
+            searchType.click();
+
+            Thread.sleep(1000);
 
             List<WebElement> stores = storeList.findElements(By.className("_3t81n"));
 
@@ -89,7 +102,7 @@ public class NaverMapService {
                 storeName.click();
                 String sn = storeName.getText();
 
-                Thread.sleep(4000);
+                Thread.sleep(3000);
 
                 String content = driver.switchTo().defaultContent().switchTo().frame("entryIframe").findElement(By.cssSelector("._6aUG7")).getText();
 
