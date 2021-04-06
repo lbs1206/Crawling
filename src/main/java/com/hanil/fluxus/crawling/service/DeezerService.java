@@ -65,8 +65,8 @@ public class DeezerService {
             //로그인 정보 입력
             List<WebElement> loginList = driver.findElements(By.cssSelector(".TextInput_input__1izzF"));
 
-            loginList.get(0).sendKeys("jeffrey@fluxusmusic.com");
-            loginList.get(1).sendKeys("fluxus0380!");
+            loginList.get(0).sendKeys("");
+            loginList.get(1).sendKeys("");
 
             Thread.sleep(2000);
             //sign in click
