@@ -46,7 +46,7 @@ public class CrawlingApiController {
     @PostMapping("/api/crawling/deezer")
     public List<Deezer> getDeezerDatas() throws IOException{
 
-        return deezerService.getDeezerDatas("191953119120");
+        return deezerService.getDeezerDatas("");
 
     }
 
@@ -60,7 +60,7 @@ public class CrawlingApiController {
     @PostMapping("/api/crawling/naver")
     public List<NaverMap> getNaverMapDatas() throws IOException{
 
-        return naverMapService.getNaverDatas("코리아CC");
+        return naverMapService.getNaverDatas("");
 
     }
 
