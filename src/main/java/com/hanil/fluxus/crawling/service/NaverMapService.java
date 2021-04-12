@@ -69,31 +69,45 @@ public class NaverMapService {
             Thread.sleep(2000);
 
             //음식점 검색
+            //WebElement storeBtn = driver.findElement(By.partialLinkText("음식점"));
+            //storeBtn.click();
             inputSearch.clear();
             inputSearch.sendKeys("음식점");
 
             SearchBtn.sendKeys(Keys.ENTER);
-
             Thread.sleep(3000);
 
+
+
+            //가게리스트 수집
             WebElement storeList = driver.switchTo().frame("searchIframe").findElement(By.cssSelector("#_pcmap_list_scroll_container ul"));
+
+            //많이뜨는
+            WebElement searchTypes = driver.findElement(By.cssSelector("._22O8f ._2z373"));
+            searchTypes.click();
+            Thread.sleep(1000);
+            WebElement searchType = driver.findElement(By.partialLinkText("많이찾는"));
+            searchType.click();
+
+            Thread.sleep(1000);
 
             List<WebElement> stores = storeList.findElements(By.className("_3t81n"));
 
-
+            //가게 정보 및 리뷰 데이터 수집
             for(WebElement store : stores){
-
+                //frame 변경(검색 iframe 으로 변경)
                 driver.switchTo().defaultContent().switchTo().frame("searchIframe");
+                //가게정보 데이터 수집
                 WebElement storeName = store.findElement(By.className("_3Yilt"));
                 storeName.click();
                 String sn = storeName.getText();
 
+                Thread.sleep(3000);
 
-                Thread.sleep(4000);
+                String content = driver.switchTo().defaultContent().switchTo().frame("entryIframe").findElement(By.cssSelector("._6aUG7")).getText();
 
-                String content = driver.switchTo().defaultContent().switchTo().frame("entryIframe").findElement(By.cssSelector(".place_section_content")).getText();
-
-                WebElement reviewBtn = driver.findElement(By.partialLinkText("리뷰"));
+                //가게 리뷰 데이터 수집
+                WebElement reviewBtn = driver.findElement(By.linkText("리뷰"));
 
                 reviewBtn.click();
 
@@ -109,9 +123,9 @@ public class NaverMapService {
                             .build();
 
                     reviews.add(naverMapReview);
-
                 }
 
+                //가게 정보 및 리뷰 객체에 저장
                 NaverMap naverMap = NaverMap.builder()
                         .CCName(cc)
                         .content(content)
@@ -121,7 +135,6 @@ public class NaverMapService {
 
                 naverMaps.add(naverMap);
             }
-
 
 
         }catch (Exception e){
